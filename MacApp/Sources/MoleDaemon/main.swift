@@ -90,7 +90,7 @@ final class DaemonDelegate: NSObject, NSXPCListenerDelegate {
         // Must match exact identifier, Team ID, and specific entitlements to prevent spoofing.
         // NOTE: Replace YOUR_TEAM_ID with the actual Apple Developer Team ID
         let requirementString = """
-        identifier "com.bilal.MoleApp" and anchor apple generic and certificate leaf[subject.OU] = "YOUR_TEAM_ID"
+        identifier "com.mole.app" and anchor apple generic and certificate leaf[subject.OU] = "YOUR_TEAM_ID"
         """
         
         var requirement: SecRequirement?

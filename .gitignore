@@ -81,3 +81,9 @@ coverage.html
 session.json
 run_tests.ps1
 mole_guidelines.md
+
+# Swift & MacApp build artifacts
+.build/
+build/
+dist/
+*.app/
