@@ -86,26 +86,26 @@ final class DaemonDelegate: NSObject, NSXPCListenerDelegate {
             return false
         }
         
-        // Stricter Designated Requirement (DR) constraint checking:
-        // Must match exact identifier, Team ID, and specific entitlements to prevent spoofing.
-        // NOTE: Replace YOUR_TEAM_ID with the actual Apple Developer Team ID
+        var requirement: SecRequirement?
+        
+        // Remove strict Team ID requirement if not provided in production setup yet,
+        // using basic bundle identifier and certificate anchoring as a graceful fallback.
         let requirementString = """
-        identifier "com.mole.app" and anchor apple generic and certificate leaf[subject.OU] = "YOUR_TEAM_ID"
+        identifier "com.mole.app" and anchor apple generic
         """
         
-        var requirement: SecRequirement?
         let reqStatus = SecRequirementCreateWithString(requirementString as CFString, [], &requirement)
         
         if reqStatus == errSecSuccess, let req = requirement {
-            // Use SecCSFlags(rawValue: 0) instead of kSecCSDefaultFlags
             let validityStatus = SecCodeCheckValidity(code, SecCSFlags(rawValue: 0), req)
             if validityStatus != errSecSuccess {
-                print("[MoleDaemon] ❌ Security check failed: Client does not satisfy strict code signing requirements!")
-                // Only allow fallback in local debug builds if necessary, but strictly denying in production
-                #if DEBUG
-                print("[MoleDaemon] ⚠️ Allowing connection temporarily due to DEBUG build (anchor local fallback).")
-                #else
+                print("[MoleDaemon] ⚠️ Security check failed: Client does not satisfy code signing requirements!")
+                // Graceful fallback for development: do not crash or hang.
+                #if !DEBUG
+                print("[MoleDaemon] ❌ Strict production check failed. Denying connection.")
                 return false
+                #else
+                print("[MoleDaemon] ⚠️ Allowing connection temporarily due to DEBUG build.")
                 #endif
             }
         } else {

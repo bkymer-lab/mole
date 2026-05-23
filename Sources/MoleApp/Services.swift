@@ -1256,6 +1256,11 @@ public actor AppUpdaterEngine {
         onProgress: @escaping (Double) -> Void
     ) async throws -> ActionResult {
         
+        // Ensure URL is secure HTTPS
+        guard downloadURL.scheme == "https" else {
+            throw NSError(domain: "AppUpdaterError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Insecure download URL provided. Must use HTTPS."])
+        }
+        
         let fileManager = FileManager.default
         let tempDir = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try fileManager.createDirectory(at: tempDir, withIntermediateDirectories: true)
@@ -1294,7 +1299,8 @@ public actor AppUpdaterEngine {
         // 3. Mount DMG using hdiutil
         let attachProcess = Process()
         attachProcess.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
-        attachProcess.arguments = ["attach", downloadDest.path, "-nobrowse", "-noverify", "-plist"]
+        // Removed -noverify flag to enforce strict DMG verification (Data Loss / Security Prevention)
+        attachProcess.arguments = ["attach", downloadDest.path, "-nobrowse", "-plist"]
         let attachPipe = Pipe()
         attachProcess.standardOutput = attachPipe
         try attachProcess.run()
@@ -1346,22 +1352,7 @@ public actor AppUpdaterEngine {
 
 public enum AppUpdaterService {
     static func checkUpdates() -> [AppUpdate] {
-        var updates = [
-            AppUpdate(
-                appName: "Spotify",
-                installedVersion: "1.2.31.1205",
-                latestVersion: "1.2.34.802",
-                releaseNotes: "- Dynamic widget support for macOS Sonoma.\n- Liquid audio layout enhancements.\n- Bug fixes and stability optimization.",
-                sizeBytes: 134_000_000
-            ),
-            AppUpdate(
-                appName: "Visual Studio Code",
-                installedVersion: "1.85.0",
-                latestVersion: "1.89.1",
-                releaseNotes: "- Native Apple Silicon terminal speed improvements.\n- Smooth scrolling in markdown previews.\n- New frosted-glass workbench layout settings.",
-                sizeBytes: 245_000_000
-            )
-        ]
+        var updates = [AppUpdate]()
         
         // 🚀 Dynamic App Store Updates scanner!
         // It fetches real online updates from Apple's iTunes lookup API for installed user applications.

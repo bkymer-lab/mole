@@ -417,11 +417,20 @@ public class QuarantineManager {
             let parentDir = destURL.deletingLastPathComponent()
             try fm.createDirectory(at: parentDir, withIntermediateDirectories: true)
             
-            if fm.fileExists(atPath: destURL.path) {
-                try? fm.removeItem(at: destURL)
+            var finalDestURL = destURL
+            if fm.fileExists(atPath: finalDestURL.path) {
+                // Prevent data loss by appending _restored (Conflict detection)
+                let ext = finalDestURL.pathExtension
+                let base = finalDestURL.deletingPathExtension().lastPathComponent
+                var counter = 1
+                while fm.fileExists(atPath: finalDestURL.path) {
+                    let newName = ext.isEmpty ? "\(base)_restored_\(counter)" : "\(base)_restored_\(counter).\(ext)"
+                    finalDestURL = parentDir.appendingPathComponent(newName)
+                    counter += 1
+                }
             }
             
-            try fm.moveItem(at: sourceURL, to: destURL)
+            try fm.moveItem(at: sourceURL, to: finalDestURL)
             
             var items = loadManifest()
             items.removeAll { $0.id == item.id }

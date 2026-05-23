@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.mole.backgroundscan</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/Mole.app/Contents/MacOS/MoleApp</string>
+        <string>--background-scan</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StartInterval</key>
+    <integer>1800</integer> <!-- 30 minutes in seconds -->
+    <key>StandardOutPath</key>
+    <string>/tmp/com.mole.backgroundscan.out</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.mole.backgroundscan.err</string>
+</dict>
+</plist>
