@@ -1,53 +1,39 @@
 ---
-name: Bug Report
-about: Report a bug or issue with Mole
-title: '[BUG] '
+name: Bug report
+about: Create a report to help us improve the Mole macOS App
+title: "[BUG] "
 labels: bug
 assignees: ''
 ---
 
-## Describe the bug
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-A clear and concise description of what the bug is. We suggest using English for better global understanding.
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-If you believe the issue may allow unsafe deletion, path validation bypass, privilege boundary bypass, or release/install integrity issues, do not file a public bug report. Report it privately using the contact details in `SECURITY.md`.
-
-## Steps to reproduce
-
-1. Run command: `mo ...`
-2. ...
-3. See error
-
-## Expected behavior
-
+**Expected behavior**
 A clear and concise description of what you expected to happen.
 
-## Debug logs
+**Crash Logs & macOS Diagnostics**
+If the app crashed, please provide the crash log from `Console.app` -> `Crash Reports` (Look for `Mole` or `MoleDaemon`).
+Please paste the log below inside a code block, or attach the `.crash` file.
 
-Please run the command with `--debug` flag and paste the output here:
-
-```bash
-mo <command> --debug
-# Example: mo clean --debug
+```
+[Paste crash log here]
 ```
 
-<details>
-<summary>Debug output</summary>
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-```text
-Paste the debug output here
-```
+**Environment (please complete the following information):**
+ - macOS Version: [e.g. macOS Sonoma 14.2]
+ - Mac Model & Chip: [e.g. MacBook Pro M3 Max]
+ - Mole Version: [e.g. v1.0.0]
 
-</details>
-
-## Environment
-
-Please run `mo update` to ensure you are on the latest version, then paste the output of `mo --version` below:
-
-```text
-Paste mo --version output here
-```
-
-## Additional context
-
-Add any other context about the problem here, such as screenshots or related issues.
+**Additional context**
+Add any other context about the problem here. Does it happen consistently or randomly? Are you running any other system utilities?

@@ -1,18 +1,32 @@
-## Summary
+## Description
 
-- Describe the change.
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
 
-## Safety Review
+Fixes # (issue number)
 
-- Does this change affect cleanup, uninstall, optimize, installer, remove, analyze delete, update, or install behavior?
-- Does this change affect path validation, protected directories, symlink handling, sudo boundaries, or release/install integrity?
-- If yes, describe the new boundary or risk change clearly.
+## Type of change
 
-## Tests
+Please delete options that are not relevant.
 
-- List the automated tests you ran.
-- List any manual checks for high-risk paths or destructive flows.
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
 
-## Safety-related changes
+## Testing Performed
 
-- None.
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce.
+- [ ] Tested on macOS 14 (Sonoma) or newer
+- [ ] Tested on Apple Silicon (M1/M2/M3/M4/M5)
+- [ ] Built in Release Mode with Hardened Runtime enabled
+- [ ] Verified UI against Apple Human Interface Guidelines (Glassmorphism, animations, etc.)
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings (Swift Lint / Xcode Analyzer)
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] Any dependent changes have been merged and published in downstream modules
