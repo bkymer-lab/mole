@@ -20,6 +20,7 @@ mkdir -p "$BUILD_DIR"
 mkdir -p "$APP_BUNDLE/Contents/MacOS"
 mkdir -p "$APP_BUNDLE/Contents/Resources"
 mkdir -p "$APP_BUNDLE/Contents/Library/LaunchServices"
+mkdir -p "$APP_BUNDLE/Contents/Library/LaunchAgents"
 
 echo -e "${BLUE}[2/5] Compiling Swift Package (Release Mode)...${NC}"
 # -c release ve arch arm64 ile M-serisi çipler için optimize edilmiş derleme
@@ -29,6 +30,7 @@ echo -e "${BLUE}[3/5] Assembling App Bundle...${NC}"
 # Binaries
 cp ".build/arm64-apple-macosx/release/MoleApp" "$APP_BUNDLE/Contents/MacOS/Mole"
 cp ".build/arm64-apple-macosx/release/MoleDaemon" "$APP_BUNDLE/Contents/Library/LaunchServices/com.mole.daemon"
+cp "com.mole.backgroundscan.plist" "$APP_BUNDLE/Contents/Library/LaunchAgents/com.mole.backgroundscan.plist"
 
 # Info.plist oluşturma
 cat > "$APP_BUNDLE/Contents/Info.plist" <<EOF
@@ -65,14 +67,6 @@ cat > "$ENTITLEMENTS_FILE" <<EOF
     <key>com.apple.security.app-sandbox</key>
     <false/>
     <key>com.apple.security.automation.apple-events</key>
-    <true/>
-    <key>com.apple.security.cs.allow-jit</key>
-    <true/>
-    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
-    <true/>
-    <key>com.apple.security.cs.disable-library-validation</key>
-    <true/>
-    <key>com.apple.security.cs.allow-dyld-environment-variables</key>
     <true/>
     <!-- Tam Disk Erişimi (Full Disk Access) talebi için -->
     <key>com.apple.developer.system-extension.install</key>

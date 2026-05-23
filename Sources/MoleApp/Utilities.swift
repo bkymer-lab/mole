@@ -13,6 +13,29 @@ public enum Utilities {
     }
 }
 
+public enum NetworkMonitor {
+    public static func getNetworkBytes() -> UInt64 {
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        var bytesIn: UInt64 = 0
+        
+        if getifaddrs(&ifaddr) == 0 {
+            var pointer = ifaddr
+            while let interface = pointer?.pointee {
+                let name = String(cString: interface.ifa_name)
+                if let addr = interface.ifa_addr, addr.pointee.sa_family == UInt8(AF_LINK) {
+                    if name.hasPrefix("en") {
+                        let networkData = unsafeBitCast(interface.ifa_data, to: UnsafeMutablePointer<if_data>.self)
+                        bytesIn += UInt64(networkData.pointee.ifi_ibytes)
+                    }
+                }
+                pointer = interface.ifa_next
+            }
+            freeifaddrs(ifaddr)
+        }
+        return bytesIn
+    }
+}
+
 public enum Formatters {
     static let byteFormatter: ByteCountFormatter = {
         let formatter = ByteCountFormatter()

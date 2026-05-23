@@ -123,8 +123,8 @@ public struct MenuBarCompanionView: View {
                             )
                             
                             telemetryCard(
-                                title: "Core Temp",
-                                value: mockCPUTemp(),
+                                title: "Thermal State",
+                                value: viewModel.snapshot.system.thermalState,
                                 icon: "thermometer.medium",
                                 color: .red
                             )
@@ -142,9 +142,9 @@ public struct MenuBarCompanionView: View {
                             )
                             
                             telemetryCard(
-                                title: "Network In",
+                                title: "Network",
                                 value: networkSpeedMock,
-                                icon: "arrow.down.circle",
+                                icon: "arrow.up.arrow.down.circle",
                                 color: .teal
                             )
                         }
@@ -225,11 +225,7 @@ public struct MenuBarCompanionView: View {
         .cornerRadius(10)
     }
     
-    private func mockCPUTemp() -> String {
-        let base = viewModel.snapshot.system.cpuLoadPercent > 60 ? 68.0 : 42.0
-        let jitter = Double.random(in: -2.0...2.0)
-        return String(format: "%.0f°C", base + jitter)
-    }
+    @State private var lastNetworkBytes: UInt64 = 0
     
     private func purgeMemory() {
         guard !isPurgingMemory else { return }
@@ -259,10 +255,26 @@ public struct MenuBarCompanionView: View {
     
     private func simulateNetworkSpeed() {
         networkTimer?.invalidate()
-        networkTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
-            let speeds = ["824 KB/s", "1.2 MB/s", "3.4 MB/s", "142 KB/s", "98 KB/s", "2.1 MB/s"]
+        lastNetworkBytes = NetworkMonitor.getNetworkBytes()
+        
+        networkTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
+            let currentBytes = NetworkMonitor.getNetworkBytes()
+            let delta = currentBytes > lastNetworkBytes ? currentBytes - lastNetworkBytes : 0
+            lastNetworkBytes = currentBytes
+            
+            // Calculate speed per second
+            let bytesPerSec = delta / 2
+            
             withAnimation {
-                networkSpeedMock = speeds.randomElement() ?? "1.0 MB/s"
+                if bytesPerSec == 0 {
+                    networkSpeedMock = "Idle"
+                } else if bytesPerSec < 1024 {
+                    networkSpeedMock = "\(bytesPerSec) B/s"
+                } else if bytesPerSec < 1024 * 1024 {
+                    networkSpeedMock = "\(bytesPerSec / 1024) KB/s"
+                } else {
+                    networkSpeedMock = String(format: "%.1f MB/s", Double(bytesPerSec) / 1048576.0)
+                }
             }
         }
     }

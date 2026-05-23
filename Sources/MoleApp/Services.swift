@@ -1330,14 +1330,36 @@ public actor AppUpdaterEngine {
         
         let sourceAppPath = (mountPoint as NSString).appendingPathComponent(appContent)
         let targetAppPath = "/Applications/\(appContent)"
+        let targetURL = URL(fileURLWithPath: targetAppPath)
         
-        // Remove old version if it exists
-        if fileManager.fileExists(atPath: targetAppPath) {
-            try fileManager.removeItem(atPath: targetAppPath)
+        let stagingAppPath = tempDir.appendingPathComponent(appContent)
+        
+        // Copy new version to staging first
+        try fileManager.copyItem(atPath: sourceAppPath, toPath: stagingAppPath.path)
+        
+        // Verify Bundle ID
+        let bundle = Bundle(path: stagingAppPath.path)
+        guard let bundleID = bundle?.bundleIdentifier, bundleID == "com.mole.app" else {
+            throw NSError(domain: "AppUpdaterError", code: 5, userInfo: [NSLocalizedDescriptionKey: "Invalid Bundle ID. Potential security risk!"])
         }
         
-        // Copy new version
-        try fileManager.copyItem(atPath: sourceAppPath, toPath: targetAppPath)
+        // Verify Code Signature
+        let signProcess = Process()
+        signProcess.executableURL = URL(fileURLWithPath: "/usr/bin/codesign")
+        signProcess.arguments = ["--verify", "--deep", "--strict", stagingAppPath.path]
+        try signProcess.run()
+        signProcess.waitUntilExit()
+        
+        if signProcess.terminationStatus != 0 {
+            throw NSError(domain: "AppUpdaterError", code: 6, userInfo: [NSLocalizedDescriptionKey: "Signature verification failed!"])
+        }
+        
+        // Atomic Replace
+        if fileManager.fileExists(atPath: targetAppPath) {
+            _ = try fileManager.replaceItemAt(targetURL, withItemAt: stagingAppPath, backupItemName: nil, options: .usingNewMetadataOnly)
+        } else {
+            try fileManager.moveItem(at: stagingAppPath, to: targetURL)
+        }
         onProgress(0.9)
         
         return ActionResult(
@@ -1345,7 +1367,7 @@ public actor AppUpdaterEngine {
             skippedCount: 0,
             errorCount: 0,
             freedBytes: Int64(data.count),
-            message: "\(appName) has been updated successfully via DMG silent install!"
+            message: "\(appName) has been successfully verified and installed via atomic swap!"
         )
     }
 }
@@ -1431,23 +1453,13 @@ public enum AppUpdaterService {
             }
         }
         
-        // Fallback for mocked apps
-        return await Task.detached(priority: .userInitiated) {
-            onProgress(0.1)
-            try? await Task.sleep(nanoseconds: 800_000_000)
-            onProgress(0.5)
-            try? await Task.sleep(nanoseconds: 1_200_000_000)
-            onProgress(0.9)
-            try? await Task.sleep(nanoseconds: 500_000_000)
-            onProgress(1.0)
-            return ActionResult(
-                removedCount: 1,
-                skippedCount: 0,
-                errorCount: 0,
-                freedBytes: 0,
-                message: "\(update.appName) has been updated to version \(update.latestVersion) successfully!"
-            )
-        }.value
+        return ActionResult(
+            removedCount: 0,
+            skippedCount: 1,
+            errorCount: 1,
+            freedBytes: 0,
+            message: "Failed: No valid secure download URL provided for \(update.appName)."
+        )
     }
 }
 
@@ -1596,24 +1608,43 @@ public enum SecurePrivilegeService {
     static func executeWithPrivileges(kind: MaintenanceTaskKind) async -> ActionResult {
         print("[SecurePrivilegeService] Ayrıcalıklı işlem XPC çağrısı başlatılıyor: \(kind.rawValue)")
         
-        // 1. Establish connection to helper daemon
-        let connection = NSXPCConnection(machServiceName: MoleMachServiceName, options: [])
-        connection.remoteObjectInterface = NSXPCInterface(with: MoleHelperProtocol.self)
-        connection.resume()
-        
-        defer {
-            connection.invalidate()
-        }
-        
-        let helper = connection.remoteObjectProxyWithErrorHandler { error in
-            print("[SecurePrivilegeService] NSXPCConnection hatası (Yerel simülasyon moduna geçiliyor): \(error.localizedDescription)")
-        } as? MoleHelperProtocol
-        
-        if let helper = helper {
-            return await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { continuation in
+            let connection = NSXPCConnection(machServiceName: MoleMachServiceName, options: [])
+            connection.remoteObjectInterface = NSXPCInterface(with: MoleHelperProtocol.self)
+            
+            let lock = NSLock()
+            var isResumed = false
+            
+            func resumeOnce(with result: ActionResult) {
+                lock.lock()
+                defer { lock.unlock() }
+                if !isResumed {
+                    isResumed = true
+                    continuation.resume(returning: result)
+                }
+            }
+            
+            connection.interruptionHandler = {
+                print("[SecurePrivilegeService] Connection interrupted.")
+                Task { resumeOnce(with: await executeLocally(kind: kind)) }
+            }
+            
+            connection.invalidationHandler = {
+                print("[SecurePrivilegeService] Connection invalidated.")
+                Task { resumeOnce(with: await executeLocally(kind: kind)) }
+            }
+            
+            connection.resume()
+            
+            let helper = connection.remoteObjectProxyWithErrorHandler { error in
+                print("[SecurePrivilegeService] NSXPCConnection hatası: \(error.localizedDescription)")
+                Task { resumeOnce(with: await executeLocally(kind: kind)) }
+            } as? MoleHelperProtocol
+            
+            if let helper = helper {
                 helper.executeTask(kind: kind.rawValue) { success, output in
                     if success {
-                        continuation.resume(returning: ActionResult(
+                        resumeOnce(with: ActionResult(
                             removedCount: 1,
                             skippedCount: 0,
                             errorCount: 0,
@@ -1621,18 +1652,17 @@ public enum SecurePrivilegeService {
                             message: "✅ [XPC Daemon] \(output ?? "İşlem başarıyla tamamlandı.")"
                         ))
                     } else {
-                        // XPC daemon failed, fall back to local simulated run
-                        print("[SecurePrivilegeService] XPC Daemon üzerinden çalıştırma başarısız oldu, yerel simülasyon kullanılıyor.")
-                        Task {
-                            let localResult = await executeLocally(kind: kind)
-                            continuation.resume(returning: localResult)
-                        }
+                        print("[SecurePrivilegeService] XPC Daemon başarısız oldu, yerel simülasyon kullanılıyor.")
+                        Task { resumeOnce(with: await executeLocally(kind: kind)) }
                     }
+                    // Connection invalidation must happen after resume to not trigger invalidationHandler
+                    connection.invalidate()
                 }
+            } else {
+                print("[SecurePrivilegeService] XPC proxy oluşturulamadı, yerel simülasyon kullanılıyor.")
+                Task { resumeOnce(with: await executeLocally(kind: kind)) }
+                connection.invalidate()
             }
-        } else {
-            print("[SecurePrivilegeService] XPC proxy oluşturulamadı, yerel simülasyon kullanılıyor.")
-            return await executeLocally(kind: kind)
         }
     }
     

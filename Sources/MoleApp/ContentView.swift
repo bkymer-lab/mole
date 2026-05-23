@@ -148,15 +148,15 @@ public struct ContentView: View {
         case .spaceLens:
             SpaceLensBubbleView(viewModel: viewModel)
         case .cloud:
-            Text("Cloud Cleanup")
+            CloudView(viewModel: viewModel)
         case .myTools:
-            Text("My Tools")
+            ExtensionsManagerView(viewModel: viewModel)
         case .myActivity:
             Text("My Activity")
         case .privacy:
-            Text("Privacy Review") // Was PrivacyView before, can implement later or just Text
+            PrivacyView(viewModel: viewModel)
         case .settings:
-            Text("Settings")
+            UnifiedSettingsView(viewModel: viewModel)
         }
     }
 }

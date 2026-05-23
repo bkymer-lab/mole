@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_NAME="Mole"
 APP_EXECUTABLE="MoleApp"
-APP_ID="com.bilal.MoleApp"
+APP_ID="com.mole.app"
 SIGN_IDENTITY="${DEVELOPER_ID_APPLICATION:--}"
 NOTARY_PROFILE="${NOTARY_PROFILE:-}"
 DIST_DIR="$ROOT_DIR/dist"
