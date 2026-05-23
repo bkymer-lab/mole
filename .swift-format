@@ -1,0 +1,66 @@
+# swift-format configuration for Mole
+# https://github.com/apple/swift-format
+
+version: 1
+
+rules:
+  AllPublicDeclarationsHaveDocumentation: false
+  AlwaysUseLiteralForEmptyCollectionInit: false
+  AmbiguousTrailingClosureOverload: true
+  BeginDocumentationCommentWithOneLineSummary: false
+  DoNotUseSemicolons: true
+  DontRepeatTypeInStaticProperties: true
+  FileScopedDeclarationPrivacy:
+    accessLevel: private
+  FullyIndirectEnum: true
+  GroupNumericLiterals: true
+  IdentifiersMustBeASCII: true
+  NeverForceUnwrap: false
+  NeverUseForceTry: false
+  NeverUseImplicitlyUnwrappedOptionals: false
+  NoAccessLevelOnExtensionDeclaration: false
+  NoAssignmentInExpressions:
+    allowedFunctions: []
+  NoCasesWithOnlyFallthrough: true
+  NoEmptyTrailingClosureParentheses: true
+  NoLabelsInCasePatterns: false
+  NoLeadingUnderscores: false
+  NoParensAroundConditions: true
+  NoPlaygroundLiterals: true
+  NoTrailingClosure: false
+  OneCasePerLine: false
+  OneVariableDeclarationPerLine: false
+  OrderedImports: true
+  ReplaceForEachWithForLoop: false
+  ReturnVoidInsteadOfEmptyTuple: true
+  TypeNamesShouldBeCapitalized: true
+  UseEarlyExits: false
+  UseLetInEveryBoundCaseVariable: false
+  UseShorthandTypeNames: true
+  UseSingleLinePropertyGetter: false
+  UseSynthesizedInitializer: true
+  UseTripleSlashForDocumentationComments: true
+  ValidateDocumentationComments: false
+
+indentation:
+  spaces: 4
+
+lineLength: 120
+
+maximumBlankLines: 1
+
+respectsExistingLineBreaks: true
+
+lineBreakAroundMultilineExpressionChainComponents: false
+
+lineBreakBeforeEachArgument: false
+
+lineBreakBeforeEachGenericRequirement: false
+
+prioritizeKeepingFunctionOutputTogether: false
+
+indentConditionalCompilationBlocks: false
+
+indentSwitchCaseLabels: false
+
+spacesAroundRangeFormationOperators: false

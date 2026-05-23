@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Mole.entitlements — source-controlled entitlements file.
+  Applied at code-signing time via: codesign --entitlements Resources/Mole.entitlements ...
+
+  Security rationale for each entitlement:
+  - com.apple.security.app-sandbox: FALSE — required for full disk scanning, XPC helper
+    management, and accessing system-level paths outside the sandbox.
+    Justification documented in SECURITY.md.
+  - com.apple.security.automation.apple-events: TRUE — required for disk utility and
+    Spotlight reindexing actions that send Apple Events to system services.
+  - com.apple.developer.system-extension.install: TRUE — required for SMAppService
+    privileged helper registration (MoleDaemon).
+  - com.apple.developer.usernotifications.communication: TRUE — required for Trash
+    monitor alerts and background scan completion notifications.
+
+  REMOVED dangerous entitlements (compared to earlier versions):
+  - com.apple.security.cs.allow-jit: REMOVED (not needed for Swift app)
+  - com.apple.security.cs.allow-unsigned-executable-memory: REMOVED (security risk)
+  - com.apple.security.cs.disable-library-validation: REMOVED (security risk)
+  - com.apple.security.cs.allow-dyld-environment-variables: REMOVED (security risk)
+-->
+<plist version="1.0">
+<dict>
+    <!-- Sandbox is off: required for full disk access and privileged helper -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+
+    <!-- Apple Events: required for Spotlight reindex and disk utility commands -->
+    <key>com.apple.security.automation.apple-events</key>
+    <true/>
+
+    <!-- Privileged helper registration via SMAppService -->
+    <key>com.apple.developer.system-extension.install</key>
+    <true/>
+
+    <!-- User notifications for Trash monitor and background scan alerts -->
+    <key>com.apple.developer.usernotifications.communication</key>
+    <true/>
+</dict>
+</plist>

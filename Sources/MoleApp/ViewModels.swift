@@ -8,7 +8,7 @@ public final class MaintenanceViewModel: ObservableObject {
     @Published private(set) var smartCareState: SmartCareFlowState = .idle
     @Published private(set) var smartCareProgress = 0.0
     @Published private(set) var smartCareProgressTitle = "Ready"
-    @Published private(set) var smartCareProgressDetail = "Start with a lightweight health snapshot."
+    @Published private(set) var smartCareProgressDetail = "Ready to run a full health and privacy scan."
     @Published private(set) var isScanning = false
     @Published private(set) var isCleaning = false
     @Published private(set) var loadingSection: AppSection?
@@ -83,7 +83,7 @@ public final class MaintenanceViewModel: ObservableObject {
     public var smartCareStatusMessage: String {
         switch smartCareState {
         case .idle:
-            return "Start with a lightweight health snapshot. Deep scans stay off until you choose them."
+            return "Smart Care runs a deep, privacy-first scan: storage, privacy artifacts, protection threats, and system health. Nothing is modified or uploaded automatically."
         case .preparing:
             return smartCareProgressDetail
         case .scanning:
@@ -91,7 +91,7 @@ public final class MaintenanceViewModel: ObservableObject {
         case .review:
             return healthSummaryDetail
         case .explain:
-            return "Smart Care checked lightweight health signals only. Deep cleanup, cloud, and clutter reviews stay opt-in."
+            return "Smart Care performed a full scan: cleanup estimation, privacy artifact review, protection scan, and system health. No files were modified or uploaded."
         case .resolve:
             return "No action is selected automatically. Choose a focused review when you want to improve storage or background activity."
         case .summary:
@@ -198,7 +198,7 @@ public final class MaintenanceViewModel: ObservableObject {
 
     public var healthSummaryDetail: String {
         guard snapshot.collectedAt != .distantPast else {
-            return "Smart Care uses lightweight metadata and cached signals before suggesting any action."
+            return "Smart Care performs a full health, privacy, protection, and storage scan. No file contents are read or uploaded — only metadata and paths."
         }
         if snapshot.cleanup.totalSizeBytes > 0 {
             return "\(Formatters.bytes(snapshot.cleanup.totalSizeBytes)) may be recoverable. Run a review before anything moves to Trash."
@@ -246,7 +246,7 @@ public final class MaintenanceViewModel: ObservableObject {
         syncSmartCareState()
         setSmartCareProgress(
             title: "Preparing",
-            detail: "Preparing a lightweight health snapshot. No cleanup or cloud review starts.",
+            detail: "Preparing a full health, privacy, and protection scan. Nothing is deleted or uploaded.",
             progress: 0.08
         )
         isScanning = true
@@ -360,6 +360,7 @@ public final class MaintenanceViewModel: ObservableObject {
         syncSmartCareState()
         status = smartCareStatusMessage
         isScanning = false
+        ActivityHistoryStore.shared.recordSmartCareScan(healthScore: nextSnapshot.healthScore.finalScore, cleanupBytes: nextSnapshot.cleanup.totalSizeBytes)
     }
 
     private func finishCleanup(result: ActionResult, cleanup: CleanupPlan) {
@@ -367,6 +368,7 @@ public final class MaintenanceViewModel: ObservableObject {
         snapshot.cleanup = cleanup
         status = result.message
         isCleaning = false
+        ActivityHistoryStore.shared.recordCleanup(removedCount: result.removedCount, freedBytes: result.freedBytes)
     }
 
     private func syncSmartCareState() {
@@ -381,7 +383,7 @@ public final class MaintenanceViewModel: ObservableObject {
 
     private func playSmartCareProgress(runID: UUID) async {
         let stages: [(title: String, detail: String, progress: Double, delay: UInt64)] = [
-            ("Reviewing your Mac", "Reading lightweight system health signals locally.", 0.24, 260_000_000),
+            ("Reviewing your Mac", "Scanning system health, memory pressure, and CPU load.", 0.24, 260_000_000),
             ("Understanding storage", "Estimating reclaimable space without opening personal files.", 0.44, 260_000_000),
             ("Checking background health", "Reviewing memory pressure, CPU load, and background activity.", 0.66, 260_000_000),
             ("Building recommendations", "Preparing calm, review-first recommendations.", 0.86, 300_000_000)
@@ -520,6 +522,7 @@ public final class MaintenanceViewModel: ObservableObject {
             isRunningMaintenance = false
             lastActionResult = result
             status = result.message
+            ActivityHistoryStore.shared.recordMaintenance(taskName: action.title, success: result.errorCount == 0)
         }
     }
     
@@ -578,6 +581,7 @@ public final class MaintenanceViewModel: ObservableObject {
                     message: "Completed all selected maintenance tasks successfully."
                 )
                 self.status = "Maintenance queue complete."
+                ActivityHistoryStore.shared.recordMaintenance(taskName: "Maintenance Queue (\(selected.count) tasks)", success: totalErrors == 0)
             }
         }
     }

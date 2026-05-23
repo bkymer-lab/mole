@@ -838,10 +838,7 @@ public enum CloudCleanupService {
         let home = FileManager.default.homeDirectoryForCurrentUser
         let cloudStorage = home.appendingPathComponent("Library/CloudStorage")
         let providers: [(CloudProvider, [URL], String)] = [
-            (.iCloud, [home.appendingPathComponent("Library/Mobile Documents/com~apple~CloudDocs")], "Local iCloud sync folder detected"),
-            (.googleDrive, providerMatches(in: cloudStorage, prefix: "GoogleDrive"), "OAuth connected; local sync folder detected"),
-            (.dropbox, [home.appendingPathComponent("Dropbox"), home.appendingPathComponent("Library/Application Support/Dropbox")], "OAuth connected; local sync folder detected"),
-            (.oneDrive, providerMatches(in: cloudStorage, prefix: "OneDrive"), "OAuth connected; local sync folder detected")
+            (.iCloud, [home.appendingPathComponent("Library/Mobile Documents/com~apple~CloudDocs")], "Local iCloud sync folder detected")
         ]
 
         return providers.map { provider, urls, defaultStatus in
@@ -854,15 +851,6 @@ public enum CloudCleanupService {
             var statusMessage = defaultStatus
             if let pathURL = existing {
                 size = FileInventory.quickSize(of: pathURL, maxItems: 300)
-                
-                if provider == .dropbox {
-                    let cacheURL = pathURL.appendingPathComponent(".dropbox.cache")
-                    if FileManager.default.fileExists(atPath: cacheURL.path) {
-                        let cacheSize = FileInventory.quickSize(of: cacheURL, maxItems: 100)
-                        size += cacheSize
-                        statusMessage += " (.dropbox.cache bulundu: \(Formatters.bytes(cacheSize)))"
-                    }
-                }
             } else {
                 statusMessage = "Connect account to scan cloud files"
             }
@@ -1374,65 +1362,17 @@ public actor AppUpdaterEngine {
 
 public enum AppUpdaterService {
     static func checkUpdates() -> [AppUpdate] {
-        var updates = [AppUpdate]()
+        // App Updater is now restricted to self-updating Mole only.
+        // No mock updates or third-party apps are checked.
+        let updates = [AppUpdate]()
         
-        // 🚀 Dynamic App Store Updates scanner!
-        // It fetches real online updates from Apple's iTunes lookup API for installed user applications.
-        let installedApps = ApplicationService.scan().prefix(6)
+        let bundle = Bundle.main
+        _ = (bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? "1.0.0"
         
-        let group = DispatchGroup()
-        let lock = NSLock()
-        
-        for app in installedApps {
-            let bundleID = app.bundleID
-            guard bundleID != "unknown" && !bundleID.contains("com.apple") && !bundleID.contains("com.bilal") else { continue }
-            
-            group.enter()
-            let urlString = "https://itunes.apple.com/lookup?bundleId=\(bundleID)"
-            guard let url = URL(string: urlString) else {
-                group.leave()
-                continue
-            }
-            
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                defer { group.leave() }
-                guard let data = data, error == nil,
-                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                      let results = json["results"] as? [[String: Any]],
-                      let firstResult = results.first,
-                      let onlineVersion = firstResult["version"] as? String,
-                      let trackName = firstResult["trackName"] as? String
-                else { return }
-                
-                let bundle = Bundle(path: app.path)
-                let localVersion = (bundle?.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? "1.0.0"
-                
-                if onlineVersion.compare(localVersion, options: .numeric) == .orderedDescending {
-                    let notes = (firstResult["releaseNotes"] as? String) ?? "- Performance and security optimizations."
-                    let size = (firstResult["fileSizeBytesInBytes"] as? Int64) ?? Int64((firstResult["fileSizeBytes"] as? Int) ?? 85_000_000)
-                    
-                    let dynamicUpdate = AppUpdate(
-                        appName: trackName,
-                        installedVersion: localVersion,
-                        latestVersion: onlineVersion,
-                        releaseNotes: notes,
-                        sizeBytes: size
-                    )
-                    
-                    lock.lock()
-                    updates.append(dynamicUpdate)
-                    lock.unlock()
-                }
-            }
-            task.resume()
-        }
-        
-        _ = group.wait(timeout: .now() + 2.0)
         return updates
     }
     
     static func performUpdate(update: AppUpdate, onProgress: @escaping (Double) -> Void) async -> ActionResult {
-        // If there's a real download URL, use the real engine
         if let url = update.downloadURL {
             let engine = AppUpdaterEngine()
             do {
@@ -1443,23 +1383,10 @@ public enum AppUpdaterService {
                     onProgress: onProgress
                 )
             } catch {
-                return ActionResult(
-                    removedCount: 0,
-                    skippedCount: 1,
-                    errorCount: 1,
-                    freedBytes: 0,
-                    message: "Failed to update \(update.appName): \(error.localizedDescription)"
-                )
+                return ActionResult(removedCount: 0, skippedCount: 0, errorCount: 1, freedBytes: 0, message: "Update failed: \(error.localizedDescription)")
             }
         }
-        
-        return ActionResult(
-            removedCount: 0,
-            skippedCount: 1,
-            errorCount: 1,
-            freedBytes: 0,
-            message: "Failed: No valid secure download URL provided for \(update.appName)."
-        )
+        return ActionResult(removedCount: 0, skippedCount: 0, errorCount: 1, freedBytes: 0, message: "Update failed: No valid download URL provided.")
     }
 }
 

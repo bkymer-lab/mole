@@ -6,16 +6,24 @@
     <string>com.mole.backgroundscan</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Applications/Mole.app/Contents/MacOS/MoleApp</string>
+        <!-- Binary name matches build_release_dmg.sh: binary is copied as "Mole" not "MoleApp" -->
+        <string>/Applications/Mole.app/Contents/MacOS/Mole</string>
         <string>--background-scan</string>
     </array>
     <key>RunAtLoad</key>
-    <true/>
+    <false/>
     <key>StartInterval</key>
-    <integer>1800</integer> <!-- 30 minutes in seconds -->
+    <!-- 1800s = 30 minutes default. BackgroundScheduleManager.swift writes a modified copy at runtime for different intervals. -->
+    <integer>1800</integer>
     <key>StandardOutPath</key>
+    <!-- Note: Full path expansion ($HOME) is not supported in plists; installer must write the actual path. -->
     <string>/tmp/com.mole.backgroundscan.out</string>
     <key>StandardErrorPath</key>
     <string>/tmp/com.mole.backgroundscan.err</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>MOLE_BACKGROUND_MODE</key>
+        <string>1</string>
+    </dict>
 </dict>
 </plist>

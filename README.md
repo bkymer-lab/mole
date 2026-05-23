@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/bilalyasinyaman/mole-main/main/MacApp/Assets.xcassets/AppIcon.appiconset/mac1024.png" width="128" height="128" alt="Mole Logo">
+  <img src="https://raw.githubusercontent.com/bkymer-lab/mole/main/MacApp/Assets.xcassets/AppIcon.appiconset/mac1024.png" width="128" height="128" alt="Mole Logo">
   
   # Mole for macOS
   ### The Premium System Cleaner & Optimization Suite
@@ -33,7 +33,7 @@ It finds every leftover plist, daemon, and hidden cache file to completely eradi
 Visualize your storage elegantly. The Space Lens feature maps your disk structure into a beautiful, interactive bubble map, letting you spot massive, forgotten files at a single glance. Rendered smoothly using native SwiftUI Canvas elements.
 
 ### 🔐 Privacy & SQLite Engine
-Using an autonomous SQLite parser, Mole deeply and safely cleans up browsing history, tracking cookies, and offline data across major browsers (Safari, Chrome, Orion) without risking database corruption.
+Using an autonomous SQLite parser, Mole deeply and safely cleans up browsing history, tracking cookies, and offline data across major browsers (Safari, Chrome) without risking database corruption.
 
 ### ⚡ Apple Silicon First (Actor-Based Concurrency)
 Every core module in Mole is built on modern **Swift Concurrency (`async/await` & `actor`)**. It shifts heavy IO tasks (like folder traversal and disk calculations) to background threads, guaranteeing that the Glassmorphism UI never stutters, even on massive storage drives.
@@ -47,7 +47,6 @@ Every core module in Mole is built on modern **Swift Concurrency (`async/await` 
 - **Frontend:** 100% SwiftUI with custom `VisualEffectView` wrappers for `NSVisualEffectView` materials.
 - **Backend / Daemon:** Secure `MoleDaemon` (XPC Service) utilizing `auditToken` and `SecCodeCopySigningInformation` for un-spoofable root-level privileges.
 - **CI/CD:** Automated GitHub Actions pipeline. On every tag push, Mole is built in Release Mode (`-O -wmo`) and packaged into a beautiful drag-and-drop `.dmg` file via an autonomous shell script.
-- **Security:** Full Hardened Runtime and Notarization-ready Entitlements out of the box.
 
 ## 📦 Installation (Release Builds)
 
@@ -61,8 +60,8 @@ To build Mole locally, ensure you are running Xcode 15+ and macOS 14.0+.
 
 ```bash
 # Clone the repository
-git clone https://github.com/bilalyasinyaman/mole-main.git
-cd mole-main/MacApp
+git clone https://github.com/bkymer-lab/mole.git
+cd mole
 
 # Run the Production Packager Script
 ./Scripts/build_release_dmg.sh

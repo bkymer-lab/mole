@@ -89,9 +89,6 @@ public enum SmartCareFlowState: Hashable {
 
 public enum CloudProvider: String, CaseIterable, Identifiable {
     case iCloud = "iCloud Drive"
-    case googleDrive = "Google Drive"
-    case dropbox = "Dropbox"
-    case oneDrive = "OneDrive"
 
     public var id: String { rawValue }
 }

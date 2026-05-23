@@ -88,10 +88,9 @@ final class DaemonDelegate: NSObject, NSXPCListenerDelegate {
         
         var requirement: SecRequirement?
         
-        // Remove strict Team ID requirement if not provided in production setup yet,
-        // using basic bundle identifier and certificate anchoring as a graceful fallback.
+        // Production security requirement: App must match identifier and be signed by the specific Team ID.
         let requirementString = """
-        identifier "com.mole.app" and anchor apple generic
+        identifier "com.mole.app" and anchor apple generic and certificate leaf[subject.OU] = "YOUR_TEAM_ID_HERE"
         """
         
         let reqStatus = SecRequirementCreateWithString(requirementString as CFString, [], &requirement)

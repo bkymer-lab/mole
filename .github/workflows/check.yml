@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # ─── Job 1: Swift Build & Test ───────────────────────────────────────────
+  build-and-test:
+    name: Build & Test (macOS ${{ matrix.macos }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - macos: "14"
+            runner: macos-14
+          - macos: "15"
+            runner: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Build (debug)
+        run: swift build -c debug
+
+      - name: Build (release)
+        run: swift build -c release --arch arm64
+
+      - name: Run Tests
+        run: swift test --parallel
+
+  # ─── Job 2: ShellCheck ───────────────────────────────────────────────────
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on Scripts
+        run: |
+          shellcheck --severity=error Scripts/build_release_dmg.sh
+          shellcheck --severity=error Scripts/package-local-app.sh
+
+  # ─── Job 3: DMG Smoke Test ───────────────────────────────────────────────
+  dmg-smoke-test:
+    name: DMG Script Smoke Test
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify build script is executable
+        run: test -x Scripts/build_release_dmg.sh
+
+      - name: Verify plist exists
+        run: test -f com.mole.backgroundscan.plist
+
+      - name: Validate plist syntax
+        run: plutil -lint com.mole.backgroundscan.plist
+
+      - name: Compile release binary (smoke)
+        run: swift build -c release --arch arm64
+
+      - name: Validate entitlements file
+        run: plutil -lint Resources/Mole.entitlements
+
+  # ─── Job 4: Swift Format Check ───────────────────────────────────────────
+  swift-format:
+    name: Swift Format Lint
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install swift-format
+        run: brew install swift-format
+
+      - name: Lint (format check only)
+        run: swift-format lint --recursive Sources/

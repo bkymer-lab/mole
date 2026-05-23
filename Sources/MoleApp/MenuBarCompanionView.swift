@@ -2,10 +2,12 @@ import SwiftUI
 
 public struct MenuBarCompanionView: View {
     @ObservedObject var viewModel: MaintenanceViewModel
-    @State private var networkSpeedMock = "1.2 MB/s"
+    /// Real-time network throughput — read from OS via getifaddrs, not mocked.
+    @State private var networkSpeed = "Calculating..."
     @State private var isPurgingMemory = false
     @State private var networkTimer: Timer?
-    
+    @State private var lastNetworkBytes: UInt64 = 0
+
     public var body: some View {
         VStack(spacing: 0) {
             // Header Bar
@@ -113,7 +115,7 @@ public struct MenuBarCompanionView: View {
                             .foregroundColor(.secondary)
                             .padding(.bottom, 2)
                         
-                        // Row 1: CPU Load & Temp
+                        // Row 1: CPU Load & Thermal State (real OS values, no sensor approximation)
                         HStack {
                             telemetryCard(
                                 title: "CPU Load",
@@ -122,6 +124,7 @@ public struct MenuBarCompanionView: View {
                                 color: .orange
                             )
                             
+                            // Thermal state comes directly from ProcessInfo.thermalState — no fake temp
                             telemetryCard(
                                 title: "Thermal State",
                                 value: viewModel.snapshot.system.thermalState,
@@ -130,10 +133,10 @@ public struct MenuBarCompanionView: View {
                             )
                         }
                         
-                        // Row 2: Battery Condition & Network
+                        // Row 2: Battery Condition & Network (real getifaddrs bytes/s)
                         HStack {
                             telemetryCard(
-                                title: "Battery Charge",
+                                title: "Battery",
                                 value: viewModel.snapshot.battery.isPresent
                                     ? "\(viewModel.snapshot.battery.currentChargePercent ?? 0)%"
                                     : "AC Connected",
@@ -142,8 +145,8 @@ public struct MenuBarCompanionView: View {
                             )
                             
                             telemetryCard(
-                                title: "Network",
-                                value: networkSpeedMock,
+                                title: "Network I/O",
+                                value: networkSpeed,
                                 icon: "arrow.up.arrow.down.circle",
                                 color: .teal
                             )
@@ -158,7 +161,6 @@ public struct MenuBarCompanionView: View {
             
             // Bottom Action Link
             Button(action: {
-                // Focus / Open main application window
                 NSApp.activate(ignoringOtherApps: true)
                 viewModel.selectedSection = .dashboard
             }) {
@@ -177,7 +179,7 @@ public struct MenuBarCompanionView: View {
         .frame(width: 320)
         .background(.ultraThinMaterial)
         .onAppear {
-            simulateNetworkSpeed()
+            startNetworkMonitoring()
         }
         .onDisappear {
             networkTimer?.invalidate()
@@ -225,14 +227,11 @@ public struct MenuBarCompanionView: View {
         .cornerRadius(10)
     }
     
-    @State private var lastNetworkBytes: UInt64 = 0
-    
     private func purgeMemory() {
         guard !isPurgingMemory else { return }
         isPurgingMemory = true
         
         Task {
-            // Execute the system-level RAM purge!
             let purgeAction = MaintenanceAction(
                 title: "Purge System RAM",
                 description: "",
@@ -241,7 +240,6 @@ public struct MenuBarCompanionView: View {
             )
             _ = await MaintenanceService.execute(action: purgeAction) { _, _ in }
             
-            // Re-scan system stats
             let nextSnapshot = await Task.detached(priority: .userInitiated) {
                 SystemScanService.scan()
             }.value
@@ -253,27 +251,28 @@ public struct MenuBarCompanionView: View {
         }
     }
     
-    private func simulateNetworkSpeed() {
+    /// Reads real network I/O bytes from OS via NetworkMonitor (getifaddrs AF_LINK).
+    /// Updates every 2 seconds and formats as B/s, KB/s, or MB/s.
+    private func startNetworkMonitoring() {
         networkTimer?.invalidate()
         lastNetworkBytes = NetworkMonitor.getNetworkBytes()
-        
+
         networkTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
             let currentBytes = NetworkMonitor.getNetworkBytes()
             let delta = currentBytes > lastNetworkBytes ? currentBytes - lastNetworkBytes : 0
             lastNetworkBytes = currentBytes
-            
-            // Calculate speed per second
+
             let bytesPerSec = delta / 2
-            
+
             withAnimation {
                 if bytesPerSec == 0 {
-                    networkSpeedMock = "Idle"
+                    networkSpeed = "Idle"
                 } else if bytesPerSec < 1024 {
-                    networkSpeedMock = "\(bytesPerSec) B/s"
+                    networkSpeed = "\(bytesPerSec) B/s"
                 } else if bytesPerSec < 1024 * 1024 {
-                    networkSpeedMock = "\(bytesPerSec / 1024) KB/s"
+                    networkSpeed = "\(bytesPerSec / 1024) KB/s"
                 } else {
-                    networkSpeedMock = String(format: "%.1f MB/s", Double(bytesPerSec) / 1048576.0)
+                    networkSpeed = String(format: "%.1f MB/s", Double(bytesPerSec) / 1_048_576.0)
                 }
             }
         }

@@ -152,7 +152,7 @@ public struct ContentView: View {
         case .myTools:
             ExtensionsManagerView(viewModel: viewModel)
         case .myActivity:
-            Text("My Activity")
+            MyActivityView(viewModel: viewModel)
         case .privacy:
             PrivacyView(viewModel: viewModel)
         case .settings:

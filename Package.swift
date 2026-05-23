@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "MacMaintenanceSuite",
+    name: "Mole",
     platforms: [
         .macOS(.v14)
     ],
@@ -27,6 +27,16 @@ let package = Package(
         .executableTarget(
             name: "MoleDaemon",
             dependencies: ["MoleXPC"]
+        ),
+        .target(
+            name: "MoleTestSupport",
+            dependencies: [],
+            path: "Tests/MoleTestSupport"
+        ),
+        .testTarget(
+            name: "MoleTests",
+            dependencies: ["MoleTestSupport"],
+            path: "Tests/MoleTests"
         )
     ]
 )

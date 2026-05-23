@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Info.plist — source-controlled App Bundle metadata.
+  NOTE: Version strings (CFBundleShortVersionString, CFBundleVersion) should be
+  updated by the release script or CI before packaging (e.g., via PlistBuddy).
+-->
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <!-- Must match the binary name copied in build_release_dmg.sh -->
+    <string>Mole</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>com.mole.app</string>
+
+    <key>CFBundleName</key>
+    <string>Mole</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>Mole</string>
+
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2024-2026 bkymer-lab. MIT License.</string>
+
+    <!-- Required for menu bar extra -->
+    <key>LSUIElement</key>
+    <false/>
+
+    <!-- Required for notification permissions -->
+    <key>NSUserNotificationUsageDescription</key>
+    <string>Mole uses notifications to alert you when your Trash is full or a background scan completes.</string>
+
+    <!-- Required for Full Disk Access prompts -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Mole uses Apple Events to perform system maintenance tasks like Spotlight reindexing.</string>
+
+    <key>NSSupportsAutomaticTermination</key>
+    <true/>
+
+    <key>NSSupportsSuddenTermination</key>
+    <true/>
+</dict>
+</plist>
