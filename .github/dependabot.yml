@@ -7,15 +7,5 @@ updates:
     labels:
       - "dependencies"
     reviewers:
-      - "tw93"
-    open-pull-requests-limit: 10
-
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    labels:
-      - "dependencies"
-    reviewers:
-      - "tw93"
+      - "bkymer-lab"
     open-pull-requests-limit: 10
