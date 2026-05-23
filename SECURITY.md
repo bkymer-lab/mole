@@ -6,7 +6,7 @@ Mole is a local system maintenance tool. It includes high-risk operations such a
 
 Please report suspected security issues privately.
 
-- Email: `hitw93@gmail.com`
+- Email: `yamanbilal6707@gmail.com`
 - Subject line: `Mole security report`
 
 Do not open a public GitHub issue for an unpatched vulnerability.
