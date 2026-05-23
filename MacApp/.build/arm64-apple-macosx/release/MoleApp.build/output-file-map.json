@@ -1,0 +1,121 @@
+{
+  "": {
+    "dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp.d",
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp.o",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/primary.swiftdeps"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/AppUninstallerDetailView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUninstallerDetailView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUninstallerDetailView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUninstallerDetailView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUninstallerDetailView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/AppUpdaterView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUpdaterView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUpdaterView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUpdaterView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/AppUpdaterView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/BackgroundScheduleManager.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/BackgroundScheduleManager.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/BackgroundScheduleManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/BackgroundScheduleManager.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/BackgroundScheduleManager.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/ContentView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ContentView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ContentView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/DashboardCards.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardCards.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardCards~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardCards.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardCards.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/DashboardView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/DashboardView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/ExtensionsManagerView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ExtensionsManagerView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ExtensionsManagerView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ExtensionsManagerView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ExtensionsManagerView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/MacMaintenanceSuiteApp.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MacMaintenanceSuiteApp.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MacMaintenanceSuiteApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MacMaintenanceSuiteApp.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MacMaintenanceSuiteApp.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/MaintenanceView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MaintenanceView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MaintenanceView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MaintenanceView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MaintenanceView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/MenuBarCompanionView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MenuBarCompanionView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MenuBarCompanionView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MenuBarCompanionView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MenuBarCompanionView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/Models.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Models.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Models.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Models.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/MoleApp.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/MoleApp.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/Services.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Services.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Services~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Services.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Services.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/SmartCareCoordinator.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SmartCareCoordinator.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SmartCareCoordinator~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SmartCareCoordinator.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SmartCareCoordinator.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/SpaceLensBubbleView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SpaceLensBubbleView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SpaceLensBubbleView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SpaceLensBubbleView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/SpaceLensBubbleView.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/Utilities.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Utilities.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Utilities.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Utilities.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/ViewModels.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ViewModels.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ViewModels~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ViewModels.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/ViewModels.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/Views.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Views.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Views~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Views.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/Views.dia"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleApp/VisualEffectView.swift": {
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/VisualEffectView.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/VisualEffectView~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/VisualEffectView.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/release/MoleApp.build/VisualEffectView.dia"
+  }
+}

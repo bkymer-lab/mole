@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/primary.swiftdeps"
+  },
+  "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/Sources/MoleDaemon/main.swift": {
+    "dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/main.d",
+    "object": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/main.swift.o",
+    "swiftmodule": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/main.swiftdeps",
+    "diagnostics": "/Users/bilalyasinyaman/Desktop/Mole-main/MacApp/.build/arm64-apple-macosx/debug/MoleDaemon.build/main.dia"
+  }
+}
