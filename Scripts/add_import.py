@@ -24,10 +24,10 @@ def add_import(file_path, module_name):
         with open(file_path, 'w') as f:
             f.write('\n'.join(new_lines))
 
-for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/MacApp/Sources/MoleUI/*.swift'):
+for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/Sources/MoleUI/*.swift'):
     add_import(f, "MoleCore")
     
-for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/MacApp/Sources/MoleApp/*.swift'):
+for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/Sources/MoleApp/*.swift'):
     add_import(f, "MoleCore")
     add_import(f, "MoleUI")
     add_import(f, "MoleXPC")

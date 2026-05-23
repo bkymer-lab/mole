@@ -34,5 +34,5 @@ def make_public(file_path):
     with open(file_path, 'w') as f:
         f.write('\n'.join(new_lines))
 
-for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/MacApp/Sources/MoleCore/*.swift'):
+for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/Sources/MoleCore/*.swift'):
     make_public(f)

@@ -30,5 +30,5 @@ def process_file(file_path):
     with open(file_path, 'w') as f:
         f.writelines(new_lines)
 
-for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/MacApp/Sources/MoleCore/*.swift'):
+for f in glob.glob('/Users/bilalyasinyaman/Desktop/mole-main/Sources/MoleCore/*.swift'):
     process_file(f)
